@@ -12,21 +12,24 @@ jobs:
 
       - name: Build Firmware
         run: |
-          # 1. Clone QMK Firmware
+          # 1. Save absolute path to user repo firmware files
+          USER_FW_DIR="$(pwd)/firmware"
+
+          # 2. Clone QMK
           git clone --depth 1 https://github.com/qmk/qmk_firmware.git
           cd qmk_firmware
           qmk setup -y
 
-          # 2. Build keyboard directory structure inside QMK
+          # 3. Create target keyboard structure
           mkdir -p keyboards/kittypad/keymaps/default
 
-          # 3. Copy firmware files from parent repo into QMK
-          cp ../firmware/info.json keyboards/kittypad/ 2>/dev/null || true
-          cp ../firmware/config.h keyboards/kittypad/ 2>/dev/null || true
-          cp ../firmware/rules.mk keyboards/kittypad/ 2>/dev/null || true
-          cp ../firmware/keymap.c keyboards/kittypad/keymaps/default/
+          # 4. Copy firmware files using absolute paths
+          cp "$USER_FW_DIR"/info.json keyboards/kittypad/ 2>/dev/null || true
+          cp "$USER_FW_DIR"/config.h keyboards/kittypad/ 2>/dev/null || true
+          cp "$USER_FW_DIR"/rules.mk keyboards/kittypad/ 2>/dev/null || true
+          cp "$USER_FW_DIR"/keymap.c keyboards/kittypad/keymaps/default/
 
-          # 4. Compile .uf2 file
+          # 5. Compile firmware
           qmk compile -kb kittypad -km default
 
       - name: Upload UF2 Artifact
