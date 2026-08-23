@@ -12,25 +12,29 @@ jobs:
 
       - name: Build Firmware
         run: |
+          # 1. Store absolute path to workspace root
+          REPO_DIR="$GITHUB_WORKSPACE"
 
-          REPO_DIR="$(pwd)"
-
-
+          # 2. Setup QMK Firmware in /opt/qmk_firmware
           git clone --depth 1 https://github.com/qmk/qmk_firmware.git /opt/qmk_firmware
           cd /opt/qmk_firmware
-
           qmk setup -y
 
-
+          # 3. Create target keyboard structure inside QMK
           mkdir -p keyboards/kittypad/keymaps/default
 
-
+          # 4. Copy files from workspace into QMK
           cp "$REPO_DIR"/firmware/info.json keyboards/kittypad/
           cp "$REPO_DIR"/firmware/config.h keyboards/kittypad/ 2>/dev/null || true
           cp "$REPO_DIR"/firmware/rules.mk keyboards/kittypad/ 2>/dev/null || true
           cp "$REPO_DIR"/firmware/keymap.c keyboards/kittypad/keymaps/default/
 
+          # 5. Debug step: Verify files are placed properly
+          echo "=== Checking kittypad folder contents ==="
+          ls -la keyboards/kittypad/
+          ls -la keyboards/kittypad/keymaps/default/
 
+          # 6. Compile UF2
           qmk compile -kb kittypad -km default
 
       - name: Upload UF2 Artifact
