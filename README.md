@@ -11,4 +11,4 @@ The ultimate goal for this hardware ecosystem is to run an interactive, embedded
 * **Display Interface:** SSD1306 I2C OLED display ready for custom pixel rendering.
 * **RGB Flare:** 1 onboard/underglow WS2812B NeoPixel.
 Below is the schematic
-https://stardance.hackclub.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI4NTEsInB1ciI6ImJsb2JfaWQifX0=--6bc3864c6f7c729c1480d6bf6112b4029f62dc17/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJ3ZWJwIiwicmVzaXplX3RvX2xpbWl0IjpbMTYwMCw5MDBdLCJzYXZlciI6eyJzdHJpcCI6dHJ1ZSwicXVhbGl0eSI6NzV9fSwicHVyIjoidmFyaWF0aW9uIn19--5394ecd620f1b8ee9be71be3f37cd22b8a88953c/Screenshot%202026-06-02%20at%2012.25.35%E2%80%AFPM.png
+<img width="1094" height="570" alt="Screenshot 2026-08-23 at 10 13 39 PM" src="https://github.com/user-attachments/assets/62034dbc-a000-4021-adca-ac4b024750c9" />
