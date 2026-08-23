@@ -10,5 +10,6 @@ The ultimate goal for this hardware ecosystem is to run an interactive, embedded
 * **Rotary Encoder:** 1 EC11 volume scroller with a press-to-mute button mapping.
 * **Display Interface:** SSD1306 I2C OLED display ready for custom pixel rendering.
 * **RGB Flare:** 1 onboard/underglow WS2812B NeoPixel.
-Below is the schematic
+
+Attached below is the schematic
 <img width="1094" height="570" alt="Screenshot 2026-08-23 at 10 13 39 PM" src="https://github.com/user-attachments/assets/62034dbc-a000-4021-adca-ac4b024750c9" />
