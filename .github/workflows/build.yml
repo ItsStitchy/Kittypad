@@ -14,7 +14,12 @@ jobs:
           path: qmk_firmware
           submodules: recursive
 
-      - name: Checkout User Repository
+      - name: Setup QMK Environment
+        run: |
+          cd qmk_firmware
+          qmk setup -y
+
+      - name: Checkout User Repository into QMK Keyboards
         uses: actions/checkout@v4
         with:
           path: qmk_firmware/keyboards/kittypad
@@ -23,7 +28,7 @@ jobs:
         run: |
           cd qmk_firmware/keyboards/kittypad
           
-          # Move files from firmware/ folder to the keyboard root if present
+          # Move files from firmware/ folder to keyboard root if present
           if [ -d "firmware" ]; then
             cp -r firmware/* .
           fi
@@ -37,7 +42,6 @@ jobs:
       - name: Build Firmware
         run: |
           cd qmk_firmware
-          qmk setup -y
           qmk compile -kb kittypad -km default
 
       - name: Upload UF2 Artifact
