@@ -10,6 +10,21 @@
         "pid": "0x6060",
         "device_version": "0.0.1"
     },
+    "matrix_pins": {
+        "direct": [
+            ["GP10", "GP9", "GP8", "GP7", "GP2"]
+        ]
+    },
+    "encoder": {
+        "rotary": [
+            {"pin_a": "GP0", "pin_b": "GP1"}
+        ]
+    },
+    "rgblight": {
+        "pin": "GP6",
+        "led_count": 1,
+        "driver": "ws2812"
+    },
     "layouts": {
         "LAYOUT_ortho_5key": {
             "layout": [
