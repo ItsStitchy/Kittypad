@@ -19,21 +19,17 @@ jobs:
           cd /opt/qmk_firmware
           qmk setup -y
 
-          # 2. Create keyboard directory
-          mkdir -p keyboards/kittypad/keymaps/default
+          # 2. Place files into handwired directory structure
+          mkdir -p keyboards/handwired/kittypad/keymaps/default
 
-          # 3. Copy files
-          cp "$REPO_DIR"/firmware/info.json keyboards/kittypad/
-          cp "$REPO_DIR"/firmware/config.h keyboards/kittypad/ 2>/dev/null || true
-          cp "$REPO_DIR"/firmware/rules.mk keyboards/kittypad/ 2>/dev/null || true
-          cp "$REPO_DIR"/firmware/keymap.c keyboards/kittypad/keymaps/default/
+          # 3. Copy firmware files
+          cp "$REPO_DIR"/firmware/info.json keyboards/handwired/kittypad/
+          cp "$REPO_DIR"/firmware/config.h keyboards/handwired/kittypad/ 2>/dev/null || true
+          cp "$REPO_DIR"/firmware/rules.mk keyboards/handwired/kittypad/ 2>/dev/null || true
+          cp "$REPO_DIR"/firmware/keymap.c keyboards/handwired/kittypad/keymaps/default/
 
-          # 4. Force MCU setting in rules.mk
-          echo "MCU = RP2040" >> keyboards/kittypad/rules.mk
-          echo "BOOTLOADER = rp2040" >> keyboards/kittypad/rules.mk
-
-          # 5. Compile UF2
-          qmk compile -kb kittypad -km default
+          # 4. Compile handwired/kittypad target
+          qmk compile -kb handwired/kittypad -km default
 
       - name: Upload UF2 Artifact
         uses: actions/upload-artifact@v4
