@@ -1,0 +1,34 @@
+name: Build QMK Firmware
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/qmk/qmk_cli
+    steps:
+      - name: Checkout QMK
+        uses: actions/checkout@v3
+        with:
+          repository: qmk/qmk_firmware
+          submodules: recursive
+
+      - name: Copy Firmware Files
+        run: |
+          mkdir -p qmk_firmware/keyboards/kittypad/firmware
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          path: qmk_firmware/keyboards/kittypad/firmware
+
+      - name: Build Firmware
+        run: |
+          cd qmk_firmware
+          qmk compile -kb kittypad/firmware -km default
+
+      - name: Upload UF2 Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: kittypad_firmware
+          path: qmk_firmware/*.uf2
