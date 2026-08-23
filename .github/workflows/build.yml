@@ -8,7 +8,7 @@ jobs:
     container: ghcr.io/qmk/qmk_cli
     steps:
       - name: Checkout QMK
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: qmk/qmk_firmware
           submodules: recursive
@@ -18,7 +18,7 @@ jobs:
           mkdir -p qmk_firmware/keyboards/kittypad/firmware
 
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: qmk_firmware/keyboards/kittypad/firmware
 
@@ -28,7 +28,7 @@ jobs:
           qmk compile -kb kittypad/firmware -km default
 
       - name: Upload UF2 Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: kittypad_firmware
           path: qmk_firmware/*.uf2
