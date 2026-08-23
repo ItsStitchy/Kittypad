@@ -11,29 +11,33 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: qmk/qmk_firmware
+          path: qmk_firmware
           submodules: recursive
 
-      - name: Checkout Repository
+      - name: Checkout User Repository
         uses: actions/checkout@v4
         with:
-          path: user_repo
+          path: qmk_firmware/keyboards/kittypad
 
-      - name: Setup Custom Keyboard Structure
+      - name: Structure Firmware Directory
         run: |
-          # Create QMK folder paths for kittypad
-          mkdir -p qmk_firmware/keyboards/kittypad/keymaps/default
+          cd qmk_firmware/keyboards/kittypad
           
-          # Move base keyboard config files (info.json, config.h, rules.mk)
-          cp user_repo/firmware/info.json qmk_firmware/keyboards/kittypad/ 2>/dev/null || true
-          cp user_repo/firmware/config.h qmk_firmware/keyboards/kittypad/ 2>/dev/null || true
-          cp user_repo/firmware/rules.mk qmk_firmware/keyboards/kittypad/ 2>/dev/null || true
+          # Move files from firmware/ folder to the keyboard root if present
+          if [ -d "firmware" ]; then
+            cp -r firmware/* .
+          fi
           
-          # Move keymap file into the default keymap directory
-          cp user_repo/firmware/keymap.c qmk_firmware/keyboards/kittypad/keymaps/default/
+          # Create default keymap directory and move keymap file
+          mkdir -p keymaps/default
+          if [ -f "keymap.c" ]; then
+            cp keymap.c keymaps/default/
+          fi
 
       - name: Build Firmware
         run: |
           cd qmk_firmware
+          qmk setup -y
           qmk compile -kb kittypad -km default
 
       - name: Upload UF2 Artifact
