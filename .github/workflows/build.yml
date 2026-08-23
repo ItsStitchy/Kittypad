@@ -7,33 +7,35 @@ jobs:
     runs-on: ubuntu-latest
     container: ghcr.io/qmk/qmk_cli
     steps:
-      - name: Checkout User Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Build Firmware
         run: |
-          # 1. Save absolute path to user repo firmware files
-          USER_FW_DIR="$(pwd)/firmware"
+          # 1. Save absolute path to user repo
+          REPO_DIR="$(pwd)"
 
-          # 2. Clone QMK
-          git clone --depth 1 https://github.com/qmk/qmk_firmware.git
-          cd qmk_firmware
+          # 2. Clone QMK Firmware directly
+          git clone --depth 1 https://github.com/qmk/qmk_firmware.git /opt/qmk_firmware
+          cd /opt/qmk_firmware
+
+          # 3. Initialize QMK Environment
           qmk setup -y
 
-          # 3. Create target keyboard structure
+          # 4. Create keyboard directory structure
           mkdir -p keyboards/kittypad/keymaps/default
 
-          # 4. Copy firmware files using absolute paths
-          cp "$USER_FW_DIR"/info.json keyboards/kittypad/ 2>/dev/null || true
-          cp "$USER_FW_DIR"/config.h keyboards/kittypad/ 2>/dev/null || true
-          cp "$USER_FW_DIR"/rules.mk keyboards/kittypad/ 2>/dev/null || true
-          cp "$USER_FW_DIR"/keymap.c keyboards/kittypad/keymaps/default/
+          # 5. Copy firmware files into QMK
+          cp "$REPO_DIR"/firmware/info.json keyboards/kittypad/
+          cp "$REPO_DIR"/firmware/config.h keyboards/kittypad/ 2>/dev/null || true
+          cp "$REPO_DIR"/firmware/rules.mk keyboards/kittypad/ 2>/dev/null || true
+          cp "$REPO_DIR"/firmware/keymap.c keyboards/kittypad/keymaps/default/
 
-          # 5. Compile firmware
+          # 6. Compile UF2
           qmk compile -kb kittypad -km default
 
       - name: Upload UF2 Artifact
         uses: actions/upload-artifact@v4
         with:
           name: kittypad_firmware
-          path: qmk_firmware/*.uf2
+          path: /opt/qmk_firmware/*.uf2
