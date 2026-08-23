@@ -3,6 +3,8 @@
     "manufacturer": "stitchy",
     "url": "https://github.com/ItsStitchy/Kittypad",
     "maintainer": "stitchy",
+    "processor": "RP2040",
+    "bootloader": "rp2040",
     "usb": {
         "vid": "0xFEED",
         "pid": "0x6060",
