@@ -12,23 +12,21 @@ jobs:
 
       - name: Build Firmware
         run: |
-          REPO_DIR="$GITHUB_WORKSPACE"
-
-          # 1. Setup QMK
+          # Clone QMK
           git clone --depth 1 https://github.com/qmk/qmk_firmware.git /opt/qmk_firmware
           cd /opt/qmk_firmware
           qmk setup -y
 
-          # 2. Place files into handwired directory structure
+          # Create handwired folder
           mkdir -p keyboards/handwired/kittypad/keymaps/default
 
-          # 3. Copy firmware files
-          cp "$REPO_DIR"/firmware/info.json keyboards/handwired/kittypad/
-          cp "$REPO_DIR"/firmware/config.h keyboards/handwired/kittypad/ 2>/dev/null || true
-          cp "$REPO_DIR"/firmware/rules.mk keyboards/handwired/kittypad/ 2>/dev/null || true
-          cp "$REPO_DIR"/firmware/keymap.c keyboards/handwired/kittypad/keymaps/default/
+          # Copy repo firmware files
+          cp "$GITHUB_WORKSPACE"/firmware/info.json keyboards/handwired/kittypad/
+          cp "$GITHUB_WORKSPACE"/firmware/config.h keyboards/handwired/kittypad/ 2>/dev/null || true
+          cp "$GITHUB_WORKSPACE"/firmware/rules.mk keyboards/handwired/kittypad/ 2>/dev/null || true
+          cp "$GITHUB_WORKSPACE"/firmware/keymap.c keyboards/handwired/kittypad/keymaps/default/
 
-          # 4. Compile handwired/kittypad target
+          # Force target compile
           qmk compile -kb handwired/kittypad -km default
 
       - name: Upload UF2 Artifact
